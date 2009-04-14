@@ -3,6 +3,11 @@
 # This script watches modifications on the given directory, using the new
 # FSEvents API in Leopard.
 
+
+# This is a modification from the original watch script provided by Apple's Developer Package
+# usage: watch [path/to/watch] [bash cmd to execute]
+# by Julius Eckert
+
 require 'osx/foundation'
 OSX.require_framework '/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework'
 include OSX
