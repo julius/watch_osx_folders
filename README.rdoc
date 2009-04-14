@@ -3,11 +3,11 @@
 This is a little ruby bash script, for watching a directory and executing a given bash command when changes occour.
   watch /some/folder "some bash command"
 
-== Installation
+=== Installation
   chmod +x watch
   sudo mv watch /usr/bin/watch
 
-== Use Cases
+=== Use Cases
 I use it for instant execution of my testsuite, when I press cmd+s
   watch . "clear; rake test"
 
