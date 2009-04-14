@@ -1,0 +1,16 @@
+= Execute stuff on file changes
+
+This is a little ruby bash script, for watching a directory and executing a given bash command when changes occour.
+Usage:
+  watch /some/folder "some bash command"
+
+I use it for instant execution of my testsuite, when I press cmd+s
+  watch . "clear; rake test"
+
+And build my javascript files when I press cmd+s
+  watch . "clear; rake red"
+
+
+Works only in OSX. Its actually a small modification of a script provided by Apple originally found at
+  /Developer/Examples/Ruby/RubyCocoa/Scripts/watcher.rb 
+
