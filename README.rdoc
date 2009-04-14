@@ -1,18 +1,18 @@
 = Execute stuff when files change
 
 This is a little ruby bash script, for watching a directory and executing a given bash command when changes occour.
-  watch /some/folder "some bash command"
+  watchfs /some/folder "some bash command"
 
 === Installation
   chmod +x watch
-  sudo mv watch /usr/bin/watch
+  sudo mv watch /usr/bin/watchfs
 
 === Use Cases
 I use it for instant execution of my testsuite, when I press cmd+s
-  watch . "clear; rake test"
+  watchfs . "clear; rake test"
 
 And build my javascript files when I press cmd+s
-  watch . "clear; rake red"
+  watchfs . "clear; rake red"
 
 
 === Apple is awesome
