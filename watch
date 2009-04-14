@@ -1,0 +1,61 @@
+#!/usr/bin/ruby
+
+# This script watches modifications on the given directory, using the new
+# FSEvents API in Leopard.
+
+require 'osx/foundation'
+OSX.require_framework '/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework'
+include OSX
+
+def die(s)
+  $stderr.puts s
+  exit 1
+end
+
+@@last_exec = nil
+def exec_cmd
+  if (@@last_exec.nil? || Time.new > @@last_exec + 3)
+    puts `#{ARGV[1]}`
+    @@last_exec = Time.new
+  end
+end
+
+die "Usage: #{__FILE__} <path> <command>" unless ARGV.size == 2
+exec_cmd
+
+fsevents_cb = proc do |stream, ctx, numEvents, paths, marks, eventIDs|
+  paths.regard_as('*')
+  numEvents.times do |n|
+    puts "Event on path `#{paths[n]}' ID `#{eventIDs[n]}'"
+    exec_cmd
+  end
+end
+
+path = ARGV.first
+stream = FSEventStreamCreate(
+  KCFAllocatorDefault,
+  fsevents_cb,
+  nil,
+  [path],
+  KFSEventStreamEventIdSinceNow,
+  1.0,
+  0)
+
+
+die "Failed to create the FSEventStream" unless stream
+
+FSEventStreamScheduleWithRunLoop(
+  stream,
+  CFRunLoopGetCurrent(),
+  KCFRunLoopDefaultMode)
+
+ok = FSEventStreamStart(stream)
+die "Failed to start the FSEventStream" unless ok
+
+begin
+  CFRunLoopRun()
+rescue Interrupt
+  FSEventStreamStop(stream)
+  FSEventStreamInvalidate(stream)
+  FSEventStreamRelease(stream)
+end
