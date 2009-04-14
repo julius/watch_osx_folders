@@ -4,6 +4,10 @@ This is a little ruby bash script, for watching a directory and executing a give
 Usage:
   watch /some/folder "some bash command"
 
+Installation:
+  chmod +x watch
+  sudo mv watch /usr/bin/watch
+
 I use it for instant execution of my testsuite, when I press cmd+s
   watch . "clear; rake test"
 
