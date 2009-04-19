@@ -19,8 +19,10 @@ end
 
 @@last_exec = nil
 def exec_cmd
+  # execute given command only every 3 seconds
   if (@@last_exec.nil? || Time.new > @@last_exec + 3)
-    puts `#{ARGV[1]}`
+    # 2>&1 redirect STDERR into terminal output
+    puts `#{ARGV[1]} 2>&1`
     @@last_exec = Time.new
   end
 end
@@ -31,7 +33,7 @@ exec_cmd
 fsevents_cb = proc do |stream, ctx, numEvents, paths, marks, eventIDs|
   paths.regard_as('*')
   numEvents.times do |n|
-    puts "Event on path `#{paths[n]}' ID `#{eventIDs[n]}'"
+    puts "[watch] ==> #{paths[n]}"
     exec_cmd
   end
 end
